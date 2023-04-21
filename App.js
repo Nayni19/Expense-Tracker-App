@@ -8,11 +8,14 @@ import ManageExpenses from "./screens/ManageExpenses";
 import RecentExpenses from "./screens/RecentExpenses";
 import AllExpenses from "./screens/AllExpenses";
 import { GlobalStyles } from "./styles";
+import Icon from "./UI/Icon";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
-
+  const pressHandler = () => {
+    console.log("Pressed");
+  };
   const ExpensesOverview = () => {
     return (
       <Tab.Navigator
@@ -22,6 +25,16 @@ export default function App() {
           tabBarStyle: { backgroundColor: GlobalStyles.colors.primary700 },
           tabBarActiveTintColor: "white",
           tabBarInactiveTintColor: GlobalStyles.colors.primary100,
+          headerRight: ({ tintColor }) => {
+            return (
+              <Icon
+                size={30}
+                color={tintColor}
+                icon="add"
+                onPress={pressHandler}
+              />
+            );
+          },
         }}
       >
         <Tab.Screen
