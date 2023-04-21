@@ -13,13 +13,10 @@ import Icon from "./UI/Icon";
 export default function App() {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
-  const pressHandler = () => {
-    console.log("Pressed");
-  };
   const ExpensesOverview = () => {
     return (
       <Tab.Navigator
-        screenOptions={{
+        screenOptions={({ navigation }) => ({
           headerTintColor: GlobalStyles.colors.primary100,
           headerStyle: { backgroundColor: GlobalStyles.colors.primary700 },
           tabBarStyle: { backgroundColor: GlobalStyles.colors.primary700 },
@@ -31,11 +28,11 @@ export default function App() {
                 size={30}
                 color={tintColor}
                 icon="add"
-                onPress={pressHandler}
+                onPress={() => navigation.navigate("ManageExpenses")}
               />
             );
           },
-        }}
+        })}
       >
         <Tab.Screen
           name="RecentExpenses"
@@ -64,13 +61,24 @@ export default function App() {
     <>
       <StatusBar style="light" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerTintColor: GlobalStyles.colors.primary100,
+            headerStyle: { backgroundColor: GlobalStyles.colors.primary700 },
+          }}
+        >
           <Stack.Screen
             name="ExpensesOverview"
             component={ExpensesOverview}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="ManageExpenses" component={ManageExpenses} />
+          <Stack.Screen
+            name="ManageExpenses"
+            component={ManageExpenses}
+            options={{
+              presentation: "modal",
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
