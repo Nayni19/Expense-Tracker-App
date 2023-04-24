@@ -5,6 +5,7 @@ const ExpensesSummary = ({ expenses, period }) => {
   const expensesSum = expenses.reduce((sum, expense) => {
     return sum + expense.amount;
   }, 0);
+  
   return (
     <View style={styles.root}>
       <Text style={styles.periodText}>{period}</Text>

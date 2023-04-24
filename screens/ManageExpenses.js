@@ -1,16 +1,38 @@
-import { useLayoutEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useContext, useLayoutEffect } from "react";
+import { StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "../styles";
 import Button from "../components/Button";
+import { ExpenseContext } from "../store/ExpenseContext";
 
 const ManageExpenses = ({ navigation, route }) => {
+  const expenseCtx = useContext(ExpenseContext);
   const id = route.params?.expenseId;
   const isEditing = !!id;
 
-  const onCancelHandler = () => {};
-  const onConfirmHandler = () => {};
-  const ondeleteHandler = () => {};
+  const onCancelHandler = () => {
+    navigation.goBack();
+  };
+  const onConfirmHandler = () => {
+    if (isEditing) {
+      expenseCtx.updateExpense(id, {
+        desc: "Textt",
+        amount: 200,
+        date: "2023-04-21",
+      });
+    } else {
+      expenseCtx.addExpense({
+        desc: "Textt!!",
+        amount: 200,
+        date: "2023-04-21",
+      });
+    }
+    navigation.goBack();
+  };
+  const ondeleteHandler = () => {
+    expenseCtx.deleteExpense(id);
+    navigation.goBack();
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({
