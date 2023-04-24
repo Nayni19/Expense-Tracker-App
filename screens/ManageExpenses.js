@@ -1,13 +1,13 @@
 import { useContext, useLayoutEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "../styles";
 import Button from "../components/Button";
 import { ExpenseContext } from "../store/ExpenseContext";
+import Icon from "../UI/Icon";
 
-const ManageExpenses = ({ navigation, route }) => {
+const ManageExpenses = ({ route, navigation }) => {
   const expenseCtx = useContext(ExpenseContext);
-  const id = route.params?.expenseId;
+  const id = route.params?.id;
   const isEditing = !!id;
 
   const onCancelHandler = () => {
@@ -18,13 +18,13 @@ const ManageExpenses = ({ navigation, route }) => {
       expenseCtx.updateExpense(id, {
         desc: "Textt",
         amount: 200,
-        date: "2023-04-21",
+        date: new Date("2023-04-21"),
       });
     } else {
       expenseCtx.addExpense({
         desc: "Textt!!",
         amount: 200,
-        date: "2023-04-21",
+        date: new Date("2023-04-21"),
       });
     }
     navigation.goBack();
@@ -55,9 +55,9 @@ const ManageExpenses = ({ navigation, route }) => {
         </Button>
       </View>
       <View style={styles.delContainer}>
-        <Ionicons
+        <Icon
           size={30}
-          name="trash"
+          icon="trash"
           color={GlobalStyles.colors.primary100}
           onPress={ondeleteHandler}
         />

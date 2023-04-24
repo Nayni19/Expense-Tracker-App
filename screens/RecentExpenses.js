@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import { useContext } from "react";
 import { ExpenseContext } from "../store/ExpenseContext";
@@ -11,12 +11,12 @@ const RecentExpenses = () => {
     const today = new Date();
     const recent = recentDays(today, 7);
 
-    return expense.date >= recent;
+    return expense.date >= recent && expense.date < today;
   });
 
   return (
     <View style={styles.root}>
-      <ExpensesOutput expenses={recentExpensesHandler} period={"Last 7 days"} />
+      <ExpensesOutput expenses={recentExpensesHandler} period="Last 7 days" />
     </View>
   );
 };

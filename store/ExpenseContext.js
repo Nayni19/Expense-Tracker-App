@@ -5,7 +5,7 @@ const DUMMY_EXPENSES = [
     id: "e1",
     desc: "Perfume",
     amount: 1250,
-    date: new Date("2023-04-19"),
+    date: new Date("2023-04-20"),
   },
   {
     id: "e2",
@@ -58,7 +58,7 @@ export const ExpenseContext = createContext({
   updateExpense: (id, { desc, amount, date }) => {},
 });
 
-const expenseReducer = (action, state) => {
+const expenseReducer = (state, action) => {
   switch (action.type) {
     case "ADD":
       const id = new Date().toString() + Math.random().toString();
@@ -105,7 +105,6 @@ const ExpenseContextProvider = ({ children }) => {
   return (
     <ExpenseContext.Provider value={value}>{children}</ExpenseContext.Provider>
   );
-  
 };
 
 export default ExpenseContextProvider;
