@@ -1,9 +1,10 @@
 import { useContext, useLayoutEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { GlobalStyles } from "../styles";
-import Button from "../components/Button";
+import Button from "../components/UI/Button";
 import { ExpenseContext } from "../store/ExpenseContext";
-import Icon from "../UI/Icon";
+import Icon from "../components/UI/Icon";
+import ExpenseForm from "../components/ManageExpenses/ExpenseForm";
 
 const ManageExpenses = ({ route, navigation }) => {
   const expenseCtx = useContext(ExpenseContext);
@@ -13,19 +14,11 @@ const ManageExpenses = ({ route, navigation }) => {
   const onCancelHandler = () => {
     navigation.goBack();
   };
-  const onConfirmHandler = () => {
+  const onConfirmHandler = (expenseData) => {
     if (isEditing) {
-      expenseCtx.updateExpense(id, {
-        desc: "Textt",
-        amount: 200,
-        date: new Date("2023-04-21"),
-      });
+      expenseCtx.updateExpense(id, expenseData);
     } else {
-      expenseCtx.addExpense({
-        desc: "Textt!!",
-        amount: 200,
-        date: new Date("2023-04-21"),
-      });
+      expenseCtx.addExpense(expenseData);
     }
     navigation.goBack();
   };
@@ -42,26 +35,22 @@ const ManageExpenses = ({ route, navigation }) => {
 
   return (
     <View style={styles.root}>
-      <View style={styles.buttons}>
-        <Button
-          mode={"flat"}
-          style={styles.buttonStyle}
-          onPress={onCancelHandler}
-        >
-          Cancel
-        </Button>
-        <Button style={styles.buttonStyle} onPress={onConfirmHandler}>
-          {isEditing ? "Confirm" : "Add"}
-        </Button>
-      </View>
-      <View style={styles.delContainer}>
-        <Icon
-          size={30}
-          icon="trash"
-          color={GlobalStyles.colors.primary100}
-          onPress={ondeleteHandler}
-        />
-      </View>
+      <ExpenseForm
+        onCancel={onCancelHandler}
+        label={isEditing ? "Confirm" : "Add"}
+        onSubmit={onConfirmHandler}
+      />
+
+      {isEditing && (
+        <View style={styles.delContainer}>
+          <Icon
+            size={30}
+            icon="trash"
+            color={GlobalStyles.colors.primary100}
+            onPress={ondeleteHandler}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -72,20 +61,13 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: GlobalStyles.colors.primary800,
+    padding: 20,
   },
   delContainer: {
     justifyContent: "center",
     alignItems: "center",
     padding: 8,
-    margin: 16,
     borderTopWidth: 1,
     borderTopColor: GlobalStyles.colors.primary100,
-  },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  buttonStyle: {
-    minWidth: 150,
   },
 });

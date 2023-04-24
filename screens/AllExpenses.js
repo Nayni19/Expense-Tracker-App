@@ -7,7 +7,11 @@ const AllExpenses = () => {
   const expensesCtx = useContext(ExpenseContext);
   return (
     <View style={styles.root}>
-      <ExpensesOutput expenses={expensesCtx.expenses} period="Total" />
+      <ExpensesOutput
+        expenses={expensesCtx.expenses}
+        period="Total"
+        fallbackText={"No Expenses Found!"}
+      />
     </View>
   );
 };

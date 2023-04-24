@@ -16,7 +16,11 @@ const RecentExpenses = () => {
 
   return (
     <View style={styles.root}>
-      <ExpensesOutput expenses={recentExpensesHandler} period="Last 7 days" />
+      <ExpensesOutput
+        expenses={recentExpensesHandler}
+        period="Last 7 days"
+        fallbackText={"No Recent Expenses Registered!"}
+      />
     </View>
   );
 };

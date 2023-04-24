@@ -7,7 +7,7 @@ import ManageExpenses from "./screens/ManageExpenses";
 import RecentExpenses from "./screens/RecentExpenses";
 import AllExpenses from "./screens/AllExpenses";
 import { GlobalStyles } from "./styles";
-import Icon from "./UI/Icon";
+import Icon from "./components/UI/Icon";
 import ExpenseContextProvider from "./store/ExpenseContext";
 
 export default function App() {

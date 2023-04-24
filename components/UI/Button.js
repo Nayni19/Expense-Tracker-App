@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View, Text } from "react-native";
-import { GlobalStyles } from "../styles";
+import { GlobalStyles } from "../../styles";
 
 const Button = ({ children, mode, style, onPress }) => {
   return (
@@ -36,7 +36,8 @@ export default Button;
 
 const styles = StyleSheet.create({
   root: {
-    margin: 16,
+    margin: 8,
+    flex: 1,
   },
   outerContainer: {
     padding: 16,
@@ -47,6 +48,8 @@ const styles = StyleSheet.create({
   },
   flatContainer: {
     backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: GlobalStyles.colors.primary100,
   },
   textBox: {
     color: GlobalStyles.colors.primary100,
