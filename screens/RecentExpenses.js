@@ -11,7 +11,7 @@ const RecentExpenses = () => {
     const today = new Date();
     const recent = recentDays(today, 7);
 
-    return expense.date >= recent && expense.date < today;
+    return expense.date >= recent;
   });
 
   return (
