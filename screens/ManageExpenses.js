@@ -1,11 +1,17 @@
-import { useContext, useLayoutEffect } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { GlobalStyles } from "../styles";
 import { ExpenseContext } from "../store/ExpenseContext";
 import Icon from "../components/UI/Icon";
 import ExpenseForm from "../components/ManageExpenses/ExpenseForm";
+import { deleteExpense, storeExpense, updateExpense } from "../util/http";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 const ManageExpenses = ({ route, navigation }) => {
+  const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState();
+
   const expenseCtx = useContext(ExpenseContext);
   const id = route.params?.id;
   const isEditing = !!id;
@@ -15,18 +21,34 @@ const ManageExpenses = ({ route, navigation }) => {
   const onCancelHandler = () => {
     navigation.goBack();
   };
-  const onConfirmHandler = (expenseData) => {
-    if (isEditing) {
-      expenseCtx.updateExpense(id, expenseData);
-    } else {
-      expenseCtx.addExpense(expenseData);
+
+  async function onConfirmHandler(expenseData) {
+    setIsFetching(true);
+    try {
+      if (isEditing) {
+        expenseCtx.updateExpense(id, expenseData);
+        await updateExpense(id, expenseData);
+      } else {
+        const id = await storeExpense(expenseData);
+        expenseCtx.addExpense({ ...expenseData, id: id });
+      }
+      navigation.goBack();
+    } catch (error) {
+      setError("Item cannot be added/updated");
+      setIsFetching(false);
     }
-    navigation.goBack();
-  };
-  const ondeleteHandler = () => {
-    expenseCtx.deleteExpense(id);
-    navigation.goBack();
-  };
+  }
+  async function ondeleteHandler() {
+    setIsFetching(true);
+    try {
+      await deleteExpense(id);
+      expenseCtx.deleteExpense(id);
+      navigation.goBack();
+    } catch (error) {
+      setError("Item is not deleted properly");
+      setIsFetching(false);
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,6 +56,12 @@ const ManageExpenses = ({ route, navigation }) => {
     });
   }, [isEditing, navigation]);
 
+  if ((error && !isFetching)) {
+    return <ErrorOverlay message={error} />;
+  }
+  if (isFetching == true) {
+    return <LoadingOverlay color={GlobalStyles.colors.primary800} />;
+  }
   return (
     <View style={styles.root}>
       <ExpenseForm
