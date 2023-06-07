@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BACKEND_URL =
-  "https://expense-tracker-1a4e6-default-rtdb.asia-southeast1.firebasedatabase.app/";
+  "https://expensetracker-c6484-default-rtdb.firebaseio.com/";
 
 export async function storeExpense(expenseData) {
   const response = await axios.post(BACKEND_URL + "expenses.json", expenseData);
@@ -27,7 +27,7 @@ export async function fetchExpense() {
 }
 
 export function updateExpense(id, expenseData) {
-  return  axios.put(BACKEND_URL + `expenses/${id}.json`, expenseData);
+  return axios.put(BACKEND_URL + `expenses/${id}.json`, expenseData);
 }
 export function deleteExpense(id) {
   return axios.delete(BACKEND_URL + `expenses/${id}.json`);

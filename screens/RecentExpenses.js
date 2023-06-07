@@ -18,11 +18,11 @@ const RecentExpenses = () => {
       setIsFetching(true);
       try {
         const expenses = await fetchExpense();
+        expensesCtx.setExpenses(expenses);
       } catch (error) {
         setError("Data is not being fetched properly!");
       }
       setIsFetching(false);
-      expensesCtx.setExpenses(expenses);
     }
     getData();
   }, []);
