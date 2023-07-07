@@ -1,4 +1,4 @@
-# ExpenseTrackerApp
+# Expense Tracker Application using React Native
 
 An expense tracker app using React Native is an application that helps users keep track of their spending and manage their finances. One useful feature of this app is the ability to total all expenses, providing users with a clear view of their overall spending.
 
